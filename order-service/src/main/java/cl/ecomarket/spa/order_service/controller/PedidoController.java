@@ -1,6 +1,6 @@
 package cl.ecomarket.spa.order_service.controller;
 
-import cl.ecomarket.spa.order_service.client.ProductoCliente;
+import cl.ecomarket.spa.order_service.client.ProductoClientRest;
 import cl.ecomarket.spa.order_service.model.Pedido;
 import cl.ecomarket.spa.order_service.repository.PedidoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,7 @@ public class PedidoController {
     private PedidoRepository pedidoRepository;
 
     @Autowired
-    private ProductoCliente productoCliente; // Inyectamos el cliente Feign
+    private ProductoClientRest productoCliente; // Cliente REST para comunicarse con product-service
 
     @PostMapping
     public ResponseEntity<Pedido> crearPedido(@RequestBody Pedido pedidoRequest) {

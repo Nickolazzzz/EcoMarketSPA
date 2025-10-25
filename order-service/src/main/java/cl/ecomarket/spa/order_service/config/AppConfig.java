@@ -14,15 +14,3 @@ public class AppConfig {
     }
 }
 
-
-### Paso 5: Código del API Gateway
-
-Este es el punto de entrada. Solo necesita configuración.
-
-**1. Añadir la dependencia de Spring Cloud Gateway** (si no lo hiciste en start.spring.io):
-En tu `pom.xml` de `gateway-service`, asegúrate de tener:
-```xml
-<dependency>
-    <groupId>org.springframework.cloud</groupId>
-    <artifactId>spring-cloud-starter-gateway</artifactId>
-</dependency>
