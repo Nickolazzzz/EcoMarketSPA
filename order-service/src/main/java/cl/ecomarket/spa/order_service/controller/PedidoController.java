@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/pedidos") // Ruta base DENTRO de este microservicio
+@RequestMapping("/pedidos") // Ruta base
 public class PedidoController {
 
     @Autowired
@@ -24,32 +24,32 @@ public class PedidoController {
     public ResponseEntity<Pedido> crearPedido(@RequestBody Pedido pedidoRequest) {
         
         // --- INICIO DE COMUNICACIÓN ENTRE SERVICIOS ---
-        // 1. Llamar al servicio de productos para reducir el stock
+        //lamar al servicio de productos para reducir stock
         try {
             ResponseEntity<String> response = productoCliente.reducirStock(
                 pedidoRequest.getIdProducto(), 
                 pedidoRequest.getCantidad()
             );
 
-            // Si el servicio de productos responde con un error (ej: 400 por falta de stock)
+            // if servicio de productos responde con un error
             if (response.getStatusCode() != HttpStatus.OK) {
-                // Podríamos manejar diferentes errores, pero por simplicidad lo agrupamos
+                // manejar diferentes errores
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null); 
             }
 
         } catch (Exception e) {
-            // Captura errores si el servicio de productos está caído o no encuentra el producto
+            // errores si el servicioestá caído o no encuentra
             return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(null);
         }
-        // --- FIN DE COMUNICACIÓN ENTRE SERVICIOS ---
+        // --- FIN DE COMUNICACIÓN ENTRE SERVICIOS 
 
-        // 2. Si todo salió bien, guardamos el pedido
+        //, guardamos el pedido
         Pedido nuevoPedido = new Pedido(
             pedidoRequest.getIdCliente(),
             pedidoRequest.getIdProducto(),
             pedidoRequest.getCantidad()
         );
-        nuevoPedido.setEstado("COMPLETADO"); // Marcamos como completado
+        nuevoPedido.setEstado("COMPLETADO"); //marcamos completado
         pedidoRepository.save(nuevoPedido);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(nuevoPedido);

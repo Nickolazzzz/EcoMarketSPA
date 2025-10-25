@@ -1,0 +1,33 @@
+server:
+  port: 8080 
+
+spring:
+  application:
+    name: gateway-service
+  
+  cloud:
+    gateway:
+      routes:
+        # Ruta para el Servicio de Productos
+        - id: product-service-route
+          # La dirección donde corre tu servicio de productos
+          uri: http://localhost:8081 
+          predicates:
+            # Cualquier petición que llegue al puerto 8080 y empiece con /api/productos/...
+            - Path=/api/productos/** filters:
+            # ...se le quita /api/productos y se reenvía a http://localhost:8081/...
+            # Ejemplo: localhost:8080/api/productos/1 -> localhost:8081/productos/1
+            - RewritePath=/api/productos/(?<segment>.*), /productos/$\{segment}
+
+        # Ruta para el Servicio de Pedidos
+        - id: order-service-route
+          # La dirección donde corre tu servicio de pedidos
+          uri: http://localhost:8082 
+          predicates:
+            # Cualquier petición que llegue al puerto 8080 y empiece con /api/pedidos/...
+            - Path=/api/pedidos/**
+          filters:
+            # ...se le quita /api/pedidos y se reenvía a http://localhost:8082/...
+            # Ejemplo: localhost:8080/api/pedidos/cliente/5 -> localhost:8082/pedidos/cliente/5
+            - RewritePath=/api/pedidos/(?<segment>.*), /pedidos/$\{segment}
+

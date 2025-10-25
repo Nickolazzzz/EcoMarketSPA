@@ -3,7 +3,7 @@ package cl.ecomarket.spa.order_service.client;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.ResponseEntity; // sirve para manejar respuestas HTTP
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
